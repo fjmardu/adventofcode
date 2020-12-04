@@ -14,5 +14,11 @@ class global {
         const fueraEspacios = input.replace(/ /g, "");
         return fueraEspacios.split('\n');
     }
+    static inputToStrArrayByNewLine(input) {
+        //sustituyo las nuevas líneas por espacios
+        input = input.replace(/(?:\r\n|\r|\n)/g, " ");
+        const resp = input.split("  ");
+        return resp;
+    }
 }
 exports.global = global;

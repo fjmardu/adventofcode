@@ -7,7 +7,7 @@ class AOC_04_2020 {
         console.log('Parte 1=' + this.solveOnePart());
         //console.log("Mal=" + this.solveTwoPart(global.inputToStrArrayByNewLine(this.input_bad)));
         //console.log("OK=" + this.solveTwoPart(global.inputToStrArrayByNewLine(this.input_OK)));
-        console.log("Parte 2=" + this.solveTwoPart(global_1.global.inputToStrArrayByNewLine(this.input)));
+        console.log("Parte 2=" + this.solveTwoPart(global_1.global.inputToStrArrayByBlankLine(this.input)));
     }
     static solveTwoPart(input) {
         let passports = [];
@@ -136,7 +136,7 @@ class AOC_04_2020 {
         return true;
     }
     static solveOnePart() {
-        const input = global_1.global.inputToStrArrayByNewLine(this.input);
+        const input = global_1.global.inputToStrArrayByBlankLine(this.input);
         let passportOK = 0;
         input.forEach((passport) => {
             if (this.checkFields(passport))

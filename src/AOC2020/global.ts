@@ -16,7 +16,7 @@ export class global{
         return fueraEspacios.split('\n')
     }
 
-    public static inputToStrArrayByNewLine(input:string):string[]{
+    public static inputToStrArrayByBlankLine(input:string):string[]{
         //sustituyo las nuevas líneas por espacios
         input = input.replace(/(?:\r\n|\r|\n)/g," ")        
         const resp:string[]= input.split("  ")        

@@ -11,7 +11,7 @@ class AOC_06_2020 {
     }
     static secondPart(input) {
         let salida = 0;
-        const mInput = global_1.global.inputToStrArrayByNewLine(input);
+        const mInput = global_1.global.inputToStrArrayByBlankLine(input);
         mInput.forEach(data => {
             const respond = data.split(" ");
             let result = respond[0];
@@ -32,7 +32,7 @@ class AOC_06_2020 {
         return salida;
     }
     static onePart(input) {
-        const mInput = global_1.global.inputToStrArrayByNewLine(input);
+        const mInput = global_1.global.inputToStrArrayByBlankLine(input);
         let salida = 0;
         mInput.forEach(form => {
             let result = "";

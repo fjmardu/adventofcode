@@ -1,3 +1,3 @@
-import {AOC_08_2020} from './AOC2020/08'
+import {AOC_09_2020} from './AOC2020/09'
 
-AOC_08_2020.aBailar();
+AOC_09_2020.aBailar();

@@ -12,6 +12,16 @@ var global = /** @class */ (function () {
     global.inputToArrayStr = function (input) {
         return input.split('\n');
     };
+    global.inputToArrayStrSinEspacios = function (input) {
+        var fueraEspacios = input.replace(/ /g, "");
+        return fueraEspacios.split('\n');
+    };
+    global.inputToStrArrayByBlankLine = function (input) {
+        //sustituyo las nuevas líneas por espacios
+        input = input.replace(/(?:\r\n|\r|\n)/g, " ");
+        var resp = input.split("  ");
+        return resp;
+    };
     return global;
 }());
 exports.global = global;

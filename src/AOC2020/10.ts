@@ -1,4 +1,4 @@
-import { global } from "./global";
+import { global } from "../global";
 
 const input: string = `59
 134

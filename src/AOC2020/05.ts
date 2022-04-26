@@ -1,4 +1,4 @@
-import { global } from './global';
+import { global } from '../global';
 
 export class AOC_05_2020{
 

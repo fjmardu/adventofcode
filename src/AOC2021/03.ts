@@ -34,15 +34,14 @@ function playPartOne(input:string[]):number{
     return parseInt(gammaRate, 2) * parseInt(epsilonRate, 2);
 }
 
-function playPartTwo(input:string[]){
-    getO2(input,0);
-    getCO2(input,0);
+function playPartTwo(input:string[]):number{
+    return getO2(input,0)*getCO2(input,0);
 }
 
-function getO2(input:string[],index:number){
+function getO2(input:string[],index:number):number{
     if(input.length===1){
         console.log("O2=",parseInt(input[0], 2));
-        return; 
+        return parseInt(input[0], 2); 
     } 
     let newInput:string[]=[];
     for(let i=0; i<input[0].length;i++){        
@@ -57,13 +56,13 @@ function getO2(input:string[],index:number){
             newInput=input.filter(i=>i[index]==='1');
         }
     }
-    getO2(newInput,index+1);
+    return getO2(newInput,index+1);
 }
 
-function getCO2(input:string[],index:number){
+function getCO2(input:string[],index:number):number{
     if(input.length===1){
         console.log("CO2=",parseInt(input[0], 2));
-        return; 
+        return parseInt(input[0], 2); 
     } 
     let newInput:string[]=[];
     for(let i=0; i<input[0].length;i++){        
@@ -78,7 +77,7 @@ function getCO2(input:string[],index:number){
             newInput=input.filter(i=>i[index]==='0');
         }
     }
-    getCO2(newInput,index+1);
+    return getCO2(newInput,index+1);
 }
 
-playPartTwo(realInput);
+console.log(playPartTwo(realInput));

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "play": "deno run --allow-read src/AOC2021/03.ts"
+    "play": "deno run --watch --allow-read src/AOC2021/04.ts"
   },
   "author": "",
   "license": "ISC",

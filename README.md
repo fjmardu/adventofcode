@@ -6,6 +6,9 @@ Este año me he propuesto resolver los retos con Deno, así que para correr la s
 
 Si quieres aprender como dar tus primeros pasos en Deno ve a mi artículo 
 
+### JUEGOS PENDIENTES:
+- Parte 2 del 4
+
 ## ADVENT OF CODE 2020
 Para que el compilador de typescript esté compilando cualquier cambio en los fichero
 `tsc --watch`

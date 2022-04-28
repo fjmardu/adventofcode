@@ -35,7 +35,7 @@ function searchAndChangeNumberInBoards(
 }
 
 function checkLine(line: number[]): boolean {
-  if(!line) return false;
+  if (!line) return false;
   const toCount = line.filter((cell) => cell === -1);
   if (toCount.length === 5) return true;
   return false;
@@ -53,7 +53,7 @@ function deleteFirstSpace(board: string[]): string[] {
 }
 
 function checkColumn(board: number[][]): boolean {
-  if(board.length===0) return false;
+  if (board.length === 0) return false;
   for (let column = 0; column < 5; column++) {
     let howManyX = 0;
     for (let line = 0; line < 5; line++) {
@@ -64,14 +64,22 @@ function checkColumn(board: number[][]): boolean {
   return false;
 }
 
-function checkLineOrColumnComplet(boards: number[][][]): number {
+function getIndexBoardsWithBingo(boards: number[][][]): number[] {
+  const boardsWithBingo: number[] = [];
   for (let boardIndex = 0; boardIndex < boards.length; boardIndex++) {
+    let boardChecked = false;
     for (let lineIndex = 0; lineIndex < 5; lineIndex++) {
-      if (checkLine(boards[boardIndex][lineIndex])) return boardIndex;
+      if (checkLine(boards[boardIndex][lineIndex])) {
+        boardChecked = true;
+        boardsWithBingo.push(boardIndex);
+        break;
+      }
     }
-    if (checkColumn(boards[boardIndex])) return boardIndex; 
+    if (!boardChecked) {
+      if (checkColumn(boards[boardIndex])) boardsWithBingo.push(boardIndex);
+    }
   }
-  return -1;
+  return boardsWithBingo;
 }
 
 function getBoardsByCells(boards: string[]): number[][][] {
@@ -104,8 +112,8 @@ function getSumNumbersOfBoardsWithBingo(board: number[][]): number {
   return sum;
 }
 
-function getBoardsWithBingo(boards: number[][][]): number {  
-  return boards.filter(board=>board.length===0).length;
+function getBoardsWithBingo(boards: number[][][]): number {
+  return boards.filter((board) => board.length === 0).length;
 }
 
 function playPartOne(input: string): number {
@@ -114,21 +122,25 @@ function playPartOne(input: string): number {
 
   const boards = arrayInput.slice(1, arrayInput.length);
   let boardsByCells: number[][][] = getBoardsByCells(boards);
-  let boardWithBingo = -1;
+  let boardsWithBingo: number[] = [];
 
   let playNumbersIndex = 0;
-  while (boardWithBingo === -1 && playNumbersIndex < playNumbersArray.length) {
+  while (
+    boardsWithBingo.length === 0 &&
+    playNumbersIndex < playNumbersArray.length
+  ) {
     boardsByCells = searchAndChangeNumberInBoards(
       boardsByCells,
       +playNumbersArray[playNumbersIndex]
     );
-    boardWithBingo = checkLineOrColumnComplet(boardsByCells);
-    if (boardWithBingo === -1) playNumbersIndex++;
+    boardsWithBingo = getIndexBoardsWithBingo(boardsByCells);
+    if (boardsWithBingo.length === 0) playNumbersIndex++;
   }
 
   const lastNumber = playNumbersArray[playNumbersIndex];
+
   const sumNumbersOfBoardsWithBingo = getSumNumbersOfBoardsWithBingo(
-    boardsByCells[boardWithBingo]
+    boardsByCells[boardsWithBingo[0]]
   );
   return +lastNumber * sumNumbersOfBoardsWithBingo;
 }
@@ -143,49 +155,55 @@ function playPartTwo(input: string): number {
   let boardsByCells: number[][][] = getBoardsByCells(boards);
   let playNumbersIndex = 0;
   let countBoardsWithBingo = 0;
-  let boardWithBingo = -1;
-  let test=0;
-  while (
-    countBoardsWithBingo < boardsByCells.length - 1 &&
-    playNumbersIndex < playNumbersArray.length
-  ) {
-    boardWithBingo = -1;
+  let boardsWithBingo: number[] = [];
+
+  while (countBoardsWithBingo < boardsByCells.length - 1) {
+    boardsWithBingo = [];
     while (
-      boardWithBingo === -1 &&
+      boardsWithBingo.length === 0 &&
       playNumbersIndex < playNumbersArray.length
     ) {
       boardsByCells = searchAndChangeNumberInBoards(
         boardsByCells,
         +playNumbersArray[playNumbersIndex]
       );
-      boardWithBingo = checkLineOrColumnComplet(boardsByCells);
-      if (boardWithBingo !== -1){      
-        boardsByCells[boardWithBingo] = [];
-      } 
+      boardsWithBingo = getIndexBoardsWithBingo(boardsByCells);
+      if (boardsWithBingo.length !== 0) {
+        boardsWithBingo.forEach((board) => {
+          boardsByCells[board] = [];
+        });
+      }
       playNumbersIndex++;
-    }    
+    }
     countBoardsWithBingo = getBoardsWithBingo(boardsByCells);
   }
 
-  boardsByCells = searchAndChangeNumberInBoards(
-    boardsByCells,
-    +playNumbersArray[playNumbersIndex]
-  );
+  do {
+    console.log(+playNumbersArray[playNumbersIndex]);    
+    boardsByCells = searchAndChangeNumberInBoards(
+      boardsByCells,
+      +playNumbersArray[playNumbersIndex]
+    );
+    playNumbersIndex++;
+  } while (getIndexBoardsWithBingo(boardsByCells).length<1);
 
-  boardsByCells.forEach((board,index)=>{
-    console.log(index,board);
-    
-  })
+  const lastBoard:number[][]=boardsByCells[boardsByCells.findIndex((board) => board.length !== 0)];
+  console.log(lastBoard);
 
-  const indexLastBoard=boardsByCells.findIndex(board=>board.length!==0);
-  
-  const lastNumber = playNumbersArray[playNumbersIndex];
+  const indexLastBoard = boardsByCells.findIndex((board) => board.length !== 0);
+
+  const lastNumber = playNumbersArray[playNumbersIndex-1];
+
   const sumNumbersOfLastBoard = getSumNumbersOfBoardsWithBingo(
     boardsByCells[indexLastBoard]
   );
+
+  console.log(+lastNumber);
+  console.log(sumNumbersOfLastBoard);  
+  
   return +lastNumber * sumNumbersOfLastBoard;
 }
 
 console.time("play");
-console.log(playPartTwo(realInput));
+console.log(playPartOne(realInput));
 console.timeEnd("play");

@@ -1,18 +1,17 @@
 export function parentesisValidos(cadena: string): boolean {
     const pila: string[] = [];
-    const hashParentesis: any = {
-      "(": ")",
-      "{": "}",
-      "[": "]",
-    };
+    const hashParentesis =new Map();
+    hashParentesis.set("(",")");
+    hashParentesis.set("[","]");
+    hashParentesis.set("{","}");
   
-    let resultado: boolean = true;
+    let resultado = true;
   
-    for(let char of cadena){
+    for(const char of cadena){
         if (!isValidChar(char)) return false;
   
         //Busca en la tabla de hash el paréntesis de cierre del char
-        const parentesisCierre = hashParentesis[char];
+        const parentesisCierre = hashParentesis.get(char);
     
         if (parentesisCierre) {
           pila.push(parentesisCierre);
@@ -43,6 +42,8 @@ export function parentesisValidos(cadena: string): boolean {
     return false;
   }
   
-  /* const input: string[] = ["[", "]"];
-  console.log(parentesisValidos(input)); */
+  const input1 = "([]}}])"; //no válido
+  const input2 = "(([]{[()[]]}))"; //sí válido  
+  console.log("input1 ->", parentesisValidos(input1));
+  console.log("input2 ->", parentesisValidos(input2));
   

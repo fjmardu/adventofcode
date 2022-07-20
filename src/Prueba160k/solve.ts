@@ -7,18 +7,22 @@ let cursor = 0;
 const data = [0];
 let pointer = 0;
 let resultString = "";
-const loops: number[] = [];
+const loops = new Map;
 
-const stack: number[] = [];
+console.time("go");
+
+const stack: number[] = []; //pila LIFO
 instructions.forEach((instruction, index) => {
   if (instruction === "🤜") {
     stack.push(index);
   } else if (instruction === "🤛") {
     const loopStart = stack.pop() || 0;
-    loops[loopStart] = index;
-    loops[index] = loopStart;
+    loops.set(loopStart,index);
+    loops.set(index,loopStart);    
   }
 });
+
+
 
 while (cursor < instructions.length) {
   const instruction = instructions[cursor];
@@ -34,22 +38,22 @@ while (cursor < instructions.length) {
       pointer -= 1;
       break;
     case "👆":
-      data[pointer] = data[pointer] === 255 ? 0 : data[pointer] + 1;
+      data[pointer] = checkValue(data[pointer] + 1);
       break;
     case "👇":
-      data[pointer] = data[pointer] === 0 ? 255 : data[pointer] - 1;
+      data[pointer] = checkValue(data[pointer] - 1);
       break;
     case "👊":
       resultString += String.fromCharCode(data[pointer]);
       break;
     case "🤜":
       if (data[pointer] === 0) {
-        cursor = loops[cursor];
+        cursor = loops.get(cursor);
       }
       break;
     case "🤛":
       if (data[pointer] !== 0) {
-        cursor = loops[cursor];
+        cursor = loops.get(cursor);
       }
       break;
     default:
@@ -59,4 +63,11 @@ while (cursor < instructions.length) {
   cursor += 1;
 }
 
+function checkValue(value: number): number {
+  if (value < 0) return 255;
+  if (value > 255) return 0;
+  return value;
+}
+
+console.timeEnd("go");
 console.log(resultString);

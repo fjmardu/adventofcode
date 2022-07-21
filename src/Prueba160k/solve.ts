@@ -9,7 +9,7 @@ let pointer = 0;
 let resultString = "";
 const loops = new Map;
 
-console.time("go");
+//console.time("go");
 
 const stack: number[] = []; //pila LIFO
 instructions.forEach((instruction, index) => {
@@ -45,6 +45,8 @@ while (cursor < instructions.length) {
       break;
     case "👊":
       resultString += String.fromCharCode(data[pointer]);
+      /* console.clear();
+      console.log(resultString); */
       break;
     case "🤜":
       if (data[pointer] === 0) {
